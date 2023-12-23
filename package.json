@@ -12,7 +12,13 @@
     "build": "tsc",
     "doc": "typedoc --plugin typedoc-plugin-markdown src/index.ts"
   },
-  "keywords": ["aleo", "web3", "crypto", "wallet", "adapter"],
+  "keywords": [
+    "aleo",
+    "web3",
+    "crypto",
+    "wallet",
+    "adapter"
+  ],
   "author": "snowtigersoft",
   "license": "MIT",
   "main": "dist/index.js",
@@ -21,9 +27,9 @@
     "dist/**/*"
   ],
   "dependencies": {
-    "@demox-labs/aleo-wallet-adapter-leo": "^0.0.19",
     "@demox-labs/aleo-wallet-adapter-base": "^0.0.20",
-    "@puzzlehq/sdk": "^0.1.43"
+    "@demox-labs/aleo-wallet-adapter-leo": "^0.0.19",
+    "@puzzlehq/sdk": "^0.1.49"
   },
   "devDependencies": {
     "ts-loader": "^9.4.1",

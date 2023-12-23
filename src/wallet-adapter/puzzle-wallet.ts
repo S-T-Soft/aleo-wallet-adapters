@@ -29,10 +29,10 @@ import {
   RecordsFilter,
   requestCreateEvent,
   requestSignature,
-  CreateEventRequestData
+  CreateEventRequestData,
+  SessionTypes
 } from "@puzzlehq/sdk";
 import {LeoWallet} from "@demox-labs/aleo-wallet-adapter-leo";
-import {SessionTypes} from "@walletconnect/types";
 
 
 export interface PuzzleWindow extends Window {

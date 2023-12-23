@@ -1,4 +1,4 @@
-export {FoxWalletAdapter} from "./wallet-adapter/foxwallet";
-export {PuzzleWalletAdapter} from "./wallet-adapter/puzzle-wallet";
-export {SoterWalletAdapter} from "./wallet-adapter/soter-wallet";
+export {FoxWalletAdapter} from "./wallet-adapter/foxwallet.js";
+export {PuzzleWalletAdapter} from "./wallet-adapter/puzzle-wallet.js";
+export {SoterWalletAdapter} from "./wallet-adapter/soter-wallet.js";
 export {LeoWalletAdapter} from "@demox-labs/aleo-wallet-adapter-leo";
