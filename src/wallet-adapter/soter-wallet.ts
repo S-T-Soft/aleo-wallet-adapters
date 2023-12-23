@@ -135,7 +135,7 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
                 const result = await wallet.requestTransaction(transaction);
                 const transactionId = result.transactionId;
                 if (!transactionId || transactionId.length == 0) {
-                    throw new WalletTransactionError("User cancel");
+                    throw new WalletTransactionError("Permission Not Granted");
                 }
                 return transactionId[0];
             } catch (error: any) {
