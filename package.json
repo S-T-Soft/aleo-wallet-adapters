@@ -1,7 +1,7 @@
 {
   "name": "aleo-wallet-adapters",
   "displayName": "Aleo Wallet Adapters",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Aleo adapters for multi aleo wallets",
   "type": "module",
   "repository": {
