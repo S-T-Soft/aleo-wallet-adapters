@@ -115,7 +115,20 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
     }
 
     async requestRecords(program: string): Promise<any[]> {
-        return this.requestRecordPlaintexts(program);
+        try {
+            const wallet = this._wallet;
+            if (!wallet || !this.publicKey) throw new WalletNotConnectedError();
+
+            try {
+                const result = await wallet.requestRecords(program);
+                return result.records;
+            } catch (error: any) {
+                throw new WalletRecordsError(error?.message, error);
+            }
+        } catch (error: any) {
+            this.emit('error', error);
+            throw error;
+        }
     }
 
     async requestTransaction(transaction: AleoTransaction): Promise<string> {
@@ -123,21 +136,13 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = this._wallet;
             if (!wallet || !this.publicKey) throw new WalletNotConnectedError();
             try {
-                transaction.transitions = transaction.transitions.map((transition) => {
-                    transition.inputs = transition.inputs.map((input) => {
-                        if (typeof input === 'object' && input.plaintext) {
-                            return input.plaintext;
-                        }
-                        return input;
-                    });
-                    return transition;
-                })
+                transaction.fee = 10;
                 const result = await wallet.requestTransaction(transaction);
                 const transactionId = result.transactionId;
                 if (!transactionId || transactionId.length == 0) {
                     throw new WalletTransactionError("Permission Not Granted");
                 }
-                return transactionId[0];
+                return transactionId;
             } catch (error: any) {
                 throw new WalletTransactionError(error?.message, error);
             }
@@ -249,7 +254,7 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
         }
     }
 
-    async connect(decryptPermission: DecryptPermission, network: WalletAdapterNetwork): Promise<void> {
+    async connect(decryptPermission: DecryptPermission, network: WalletAdapterNetwork, programs?: string[]): Promise<void> {
         try {
             if (this.connected || this.connecting) return;
             if (this._readyState !== WalletReadyState.Installed) throw new WalletNotReadyError();
@@ -260,7 +265,7 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
             const wallet = window.soterWallet! || window.soter!;
 
             try {
-                await wallet.connect(decryptPermission, network);
+                await wallet.connect(decryptPermission, network, programs);
                 if (!wallet?.publicKey) {
                     throw new WalletConnectionError();
                 }
@@ -305,8 +310,12 @@ export class SoterWalletAdapter extends BaseMessageSignerWalletAdapter {
             if (!wallet || !this.publicKey) throw new WalletNotConnectedError();
 
             try {
-                const signature = await wallet.signMessage(message);
-                return signature.signature;
+                // @ts-ignore
+                const signature: {signature: {errorCode: number, result: string}} = await wallet.signMessage(message);
+                if (signature.signature.errorCode != 0) {
+                    throw new Error("Permission Not Granted");
+                }
+                return new TextEncoder().encode(signature.signature.result);
             } catch (error: any) {
                 throw new WalletSignTransactionError(error?.message, error);
             }
