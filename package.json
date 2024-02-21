@@ -1,7 +1,7 @@
 {
   "name": "aleo-wallet-adapters",
   "displayName": "Aleo Wallet Adapters",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Aleo adapters for multi aleo wallets",
   "type": "module",
   "repository": {
@@ -29,7 +29,7 @@
   "dependencies": {
     "@demox-labs/aleo-wallet-adapter-base": "^0.0.20",
     "@demox-labs/aleo-wallet-adapter-leo": "^0.0.19",
-    "@puzzlehq/sdk": "^0.1.52"
+    "@puzzlehq/sdk": "0.2.5"
   },
   "devDependencies": {
     "ts-loader": "^9.4.1",
